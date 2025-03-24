@@ -1,5 +1,5 @@
 manifest_version: '1'
-name: service_providers_test
+name: service_providers
 integrity:
   network_seed: null
   properties: null
