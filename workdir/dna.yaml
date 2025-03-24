@@ -10,10 +10,6 @@ integrity:
       hash: ~
       bundled: "../target/wasm32-unknown-unknown/release/service_providers_integrity.wasm"
       dependencies: ~    
-    - name: profiles_integrity
-      hash: ~
-      bundled: <NIX PACKAGE>
-      dependencies: ~
 coordinator:
   zomes:
     - name: service_providers
@@ -21,8 +17,3 @@ coordinator:
       bundled: "../target/wasm32-unknown-unknown/release/service_providers.wasm"
       dependencies:
         - name: service_providers_integrity    
-    - name: profiles
-      hash: ~
-      bundled: <NIX PACKAGE>
-      dependencies:
-        - name: profiles_integrity
