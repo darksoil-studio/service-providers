@@ -1,0 +1,15 @@
+[package]
+name = "service_providers"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "service_providers"
+
+[dependencies]
+hdk = { workspace = true }
+
+serde = { workspace = true }
+
+service_providers_integrity = { path = "../../integrity/service_providers", package = "service_providers_integrity" }
