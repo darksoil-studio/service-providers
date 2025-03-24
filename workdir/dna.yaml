@@ -1,19 +1,32 @@
----
-manifest_version: "1"
+manifest_version: '1'
 name: service_providers_test
 integrity:
-  network_seed: ~
-  properties: ~
+  network_seed: null
+  properties: null
   origin_time: 1676140846503210
   zomes:
-    - name: service_providers_integrity
-      hash: ~
-      bundled: "../target/wasm32-unknown-unknown/release/service_providers_integrity.wasm"
-      dependencies: ~    
+  - name: service_providers_integrity
+    hash: null
+    bundled: ../target/wasm32-unknown-unknown/release/service_providers_integrity.wasm
+    dependencies: null
+    dylib: null
+  - name: roles_integrity
+    hash: null
+    bundled: <NIX_PACKAGE>
+    dependencies: null
+    dylib: null
 coordinator:
   zomes:
-    - name: service_providers
-      hash: ~
-      bundled: "../target/wasm32-unknown-unknown/release/service_providers.wasm"
-      dependencies:
-        - name: service_providers_integrity    
+  - name: service_providers
+    hash: null
+    bundled: ../target/wasm32-unknown-unknown/release/service_providers.wasm
+    dependencies:
+    - name: service_providers_integrity
+    dylib: null
+  - name: roles
+    hash: null
+    bundled: <NIX_PACKAGE>
+    dependencies:
+    - name: roles_integrity
+    dylib: null
+lineage: []

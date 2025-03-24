@@ -8,7 +8,7 @@ crate-type = ["cdylib", "rlib"]
 name = "service_providers"
 
 [dependencies]
-hdk = { workspace = true }
+hdk = { workspace = true, features = ["unstable-functions"] }
 
 serde = { workspace = true }
 

@@ -790,6 +790,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "roles_types"
+version = "0.0.1"
+source = "git+https://github.com/darksoil-studio/roles-zome?branch=main-0.4#507c5ff8e0ab93cdf4289f470bfcc03d94e6da73"
+dependencies = [
+ "hdi",
+ "holo_hash",
+ "serde",
+]
+
+[[package]]
 name = "rustc_version"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -881,8 +891,14 @@ name = "service_providers_integrity"
 version = "0.0.1"
 dependencies = [
  "hdi",
+ "roles_types",
  "serde",
+ "service_providers_types",
 ]
+
+[[package]]
+name = "service_providers_types"
+version = "0.1.0"
 
 [[package]]
 name = "shlex"

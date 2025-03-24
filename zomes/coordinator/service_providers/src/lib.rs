@@ -1,6 +1,9 @@
 use hdk::prelude::*;
 use service_providers_integrity::*;
 
+mod providers;
+mod utils;
+
 #[hdk_extern]
 pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
     Ok(InitCallbackResult::Pass)
@@ -19,5 +22,5 @@ pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
     }
 }
 fn signal_action(action: SignedActionHashed) -> ExternResult<()> {
-  Ok(())
+    Ok(())
 }
