@@ -65,7 +65,7 @@ pub fn action_hash(op: &Op) -> &ActionHash {
 ///
 /// You can read more about validation here: https://docs.rs/hdi/latest/hdi/index.html#data-validation
 #[hdk_extern]
-pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
+pub fn todo_validate(op: Op) -> ExternResult<ValidateCallbackResult> {
     match op.flattened::<(), ()>()? {
         FlatOp::StoreEntry(store_entry) => match store_entry {
             OpEntry::CreateEntry { app_entry, action } => Ok(ValidateCallbackResult::Invalid(
