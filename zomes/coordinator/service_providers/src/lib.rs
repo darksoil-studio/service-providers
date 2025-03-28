@@ -2,6 +2,7 @@ use hdk::prelude::*;
 use service_providers_integrity::*;
 
 mod providers;
+mod service_request;
 mod utils;
 
 #[hdk_extern]

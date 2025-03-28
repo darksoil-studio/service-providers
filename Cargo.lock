@@ -899,6 +899,10 @@ dependencies = [
 [[package]]
 name = "service_providers_types"
 version = "0.1.0"
+dependencies = [
+ "hdi",
+ "serde",
+]
 
 [[package]]
 name = "shlex"
