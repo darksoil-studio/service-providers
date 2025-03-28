@@ -16,7 +16,7 @@ pub fn make_service_request(input: MakeServiceRequestInput) -> ExternResult<Exte
     let response = call_remote_extern_io_payload(
         provider.clone(),
         "gateway",
-        input.fn_name.into(),
+        input.fn_name,
         None,
         input.payload,
     )?;
