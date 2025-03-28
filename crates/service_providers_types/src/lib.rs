@@ -1,1 +1,1 @@
-pub type ServiceId = String;
+pub type ServiceId = Vec<u8>;

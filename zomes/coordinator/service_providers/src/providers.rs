@@ -4,7 +4,9 @@ use service_providers_integrity::*;
 use crate::utils::{create_link_relaxed, delete_link_relaxed};
 
 fn providers_for_service_path(service_id: &ServiceId) -> ExternResult<TypedPath> {
-    Path::from(format!("all_providers.{}", service_id)).typed(LinkTypes::AllProvidersPath)
+    let mut path = Path::from(format!("all_providers"));
+    path.append_component(Component::from(service_id.clone()));
+    path.typed(LinkTypes::AllProvidersPath)
 }
 
 fn all_providers_path() -> ExternResult<TypedPath> {
@@ -78,7 +80,7 @@ pub fn remove_inactive_providers() -> ExternResult<()> {
             continue;
         };
 
-        let service_id = String::try_from(leaf).map_err(|err| wasm_error!(err))?;
+        let service_id: Vec<u8> = leaf.clone().into();
         remove_inactive_providers_for_service(service_id)?;
     }
 
