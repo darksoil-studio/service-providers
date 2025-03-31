@@ -1,20 +1,10 @@
 use hdk::prelude::*;
 use service_providers_integrity::MakeServiceRequestInput;
 
-use crate::providers::get_providers_for_service;
-
 #[hdk_extern]
 pub fn make_service_request(input: MakeServiceRequestInput) -> ExternResult<ExternIO> {
-    let providers = get_providers_for_service(input.service_id.clone())?;
-    let Some(provider) = providers.first() else {
-        return Err(wasm_error!(
-            "No providers found for service id: {:?}.",
-            input.service_id
-        ));
-    };
-
     let response = call_remote_extern_io_payload(
-        provider.clone(),
+        input.service_provider,
         "gateway",
         input.fn_name,
         None,
