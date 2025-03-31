@@ -105,7 +105,7 @@ pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternRes
         if provider.eq(&my_pub_key) {
             continue;
         }
-        let available = check_provider_is_available(&provider);
+        let available = check_provider_is_available(provider.clone());
 
         if available.is_err() {
             warn!("Marking provider as not available: {provider}");
@@ -131,7 +131,8 @@ pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternRes
     Ok(())
 }
 
-pub fn check_provider_is_available(provider: &AgentPubKey) -> ExternResult<()> {
+#[hdk_extern]
+pub fn check_provider_is_available(provider: AgentPubKey) -> ExternResult<()> {
     let response = call_remote(
         provider.clone(),
         zome_info()?.name,
