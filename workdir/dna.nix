@@ -38,10 +38,10 @@
             dylib: null
         ${if gateway then ''
           - name: gateway
-                hash: null
-                bundled: <NIX_PACKAGE>
-                dependencies: []
-                dylib: null
+            hash: null
+            bundled: <NIX_PACKAGE>
+            dependencies: []
+            dylib: null
         '' else
           ""}
       '';
