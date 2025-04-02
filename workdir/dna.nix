@@ -8,6 +8,7 @@
         name: service_providers
         integrity:
           network_seed: null
+          origin_time: 1676140846503210
           properties: null
           zomes:
           - name: service_providers_integrity
