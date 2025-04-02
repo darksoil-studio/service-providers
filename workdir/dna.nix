@@ -6,11 +6,9 @@
       dnaManifest = { gateway }: ''
         manifest_version: '1'
         name: service_providers
-        lineage: []
         integrity:
           network_seed: null
           properties: null
-          origin_time: 1676140846503210
           zomes:
           - name: service_providers_integrity
             hash: null
@@ -36,14 +34,17 @@
             dependencies:
             - name: roles_integrity
             dylib: null
-        ${if gateway then ''
-          - name: gateway
-            hash: null
-            bundled: <NIX_PACKAGE>
-            dependencies: []
-            dylib: null
-        '' else
-          ""}
+          ${
+            if gateway then ''
+              - name: gateway
+                  hash: null
+                  bundled: <NIX_PACKAGE>
+                  dependencies: []
+                  dylib: null
+            '' else
+              ""
+          }
+        lineage: []
       '';
     in {
       packages.service_providers_dna =
@@ -61,8 +62,9 @@
         };
       builders.service_providers_dna_with_gateway = { gatewayZome }:
         inputs.tnesh-stack.outputs.builders.${system}.dna {
-          dnaManifest =
-            builtins.toFile "dna.yaml" (dnaManifest { gateway = true; });
+          dnaManifest = builtins.toFile "dna.yaml"
+            (builtins.trace (dnaManifest { gateway = true; })
+              (dnaManifest { gateway = true; }));
           zomes = {
             roles_integrity = inputs'.roles-zome.packages.roles_integrity;
             roles = inputs'.roles-zome.packages.roles;
