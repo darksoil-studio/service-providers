@@ -17,6 +17,8 @@ fn all_providers_path() -> ExternResult<TypedPath> {
 pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
     let agent_info = agent_info()?;
 
+    info!("Announcing as provider for service {service_id:?}");
+
     let path = providers_for_service_path(&service_id)?;
 
     create_link(
