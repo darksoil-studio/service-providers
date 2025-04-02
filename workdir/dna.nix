@@ -62,9 +62,8 @@
         };
       builders.service_providers_dna_with_gateway = { gatewayZome }:
         inputs.tnesh-stack.outputs.builders.${system}.dna {
-          dnaManifest = builtins.toFile "dna.yaml"
-            (builtins.trace (dnaManifest { gateway = true; })
-              (dnaManifest { gateway = true; }));
+          dnaManifest =
+            builtins.toFile "dna.yaml" (dnaManifest { gateway = true; });
           zomes = {
             roles_integrity = inputs'.roles-zome.packages.roles_integrity;
             roles = inputs'.roles-zome.packages.roles;
