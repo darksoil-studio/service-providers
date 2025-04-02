@@ -10,7 +10,7 @@ import {
 	Record,
 	SignedActionHashed,
 } from '@holochain/client';
-import { encode } from '@msgpack/msgpack';
+import { decode, encode } from '@msgpack/msgpack';
 import { EntryRecord, ZomeClient } from '@tnesh-stack/utils';
 
 import { ServiceId, ServiceProvidersSignal } from './types.js';
@@ -41,11 +41,12 @@ export class ServiceProvidersClient extends ZomeClient<ServiceProvidersSignal> {
 			),
 		);
 
-		return this.callZome('make_service_request', {
+		const result = await this.callZome('make_service_request', {
 			service_id: servideId,
 			service_provider: provider,
 			fn_name: fnName,
 			payload: encode(payload),
 		});
+		return decode(result) as R;
 	}
 }
