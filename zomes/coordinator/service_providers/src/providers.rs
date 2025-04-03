@@ -151,9 +151,10 @@ pub fn check_provider_is_available(provider: AgentPubKey) -> ExternResult<()> {
             }
             Ok(())
         }
-        _ => Err(wasm_error!(WasmErrorInner::Guest(
-            "Failed to handle file storage request".into()
-        ))),
+        _ => Err(wasm_error!(
+            "Failed to check whether provider is available: {:?}",
+            response
+        )),
     }
 }
 
