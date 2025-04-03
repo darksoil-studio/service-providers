@@ -1,0 +1,13 @@
+[package]
+name = "service_providers_utils"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+holochain_client = "0.6"
+holochain_types = "0.4"
+anyhow = "1"
+serde = "1"
+futures = "0.3"
+
+service_providers_types = { path = "../service_providers_types" }
