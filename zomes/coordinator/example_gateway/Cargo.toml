@@ -1,0 +1,14 @@
+[package]
+name = "example_gateway"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "example_gateway"
+
+[dependencies]
+hdk = { workspace = true }
+serde = { workspace = true }
+
+service_providers_types = { path = "../../../crates/service_providers_types" }

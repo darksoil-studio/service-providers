@@ -35,8 +35,7 @@ pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
 
     create_cap_grant(CapGrantEntry {
         tag: "".into(),
-        // empty access converts to unrestricted
-        access: ().into(),
+        access: CapAccess::Unrestricted,
         functions,
     })?;
 

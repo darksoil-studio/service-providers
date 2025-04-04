@@ -29,4 +29,9 @@ coordinator:
     dependencies:
     - name: roles_integrity
     dylib: null
+  - name: example_gateway
+    hash: null
+    bundled: ../target/wasm32-unknown-unknown/release/example_gateway.wasm
+    dependencies: []
+    dylib: null
 lineage: []

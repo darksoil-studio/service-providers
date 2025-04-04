@@ -29,6 +29,7 @@
       imports = [
         ./zomes/integrity/service_providers/zome.nix
         ./zomes/coordinator/service_providers/zome.nix
+        ./zomes/coordinator/example_gateway/zome.nix
         # Just for testing purposes
         ./workdir/dna.nix
         ./workdir/happ.nix
