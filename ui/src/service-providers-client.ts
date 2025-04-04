@@ -24,7 +24,7 @@ export class ServiceProvidersClient extends ZomeClient<ServiceProvidersSignal> {
 		super(client, roleName, zomeName);
 	}
 
-	private getProvidersForService(serviceId: ServiceId): Promise<AgentPubKey[]> {
+	getProvidersForService(serviceId: ServiceId): Promise<AgentPubKey[]> {
 		return this.callZome('get_providers_for_service', serviceId);
 	}
 
@@ -37,7 +37,9 @@ export class ServiceProvidersClient extends ZomeClient<ServiceProvidersSignal> {
 
 		const provider = await Promise.race(
 			providers.map(provider =>
-				this.callZome('check_provider_is_available', provider),
+				this.callZome('check_provider_is_available', provider).then(
+					() => provider,
+				),
 			),
 		);
 

@@ -36,7 +36,7 @@ where
                 ZomeCallTarget::RoleName("service_providers".into()),
                 "service_providers".into(),
                 "check_provider_is_available".into(),
-                ExternIO::encode(provider.clone()).unwrap(),
+                ExternIO::encode(provider.clone())?,
             )
             .map_ok(|_r| provider)
             .boxed()
@@ -52,7 +52,7 @@ where
                 service_provider,
                 service_id,
                 fn_name,
-                payload: ExternIO::encode(payload).unwrap(),
+                payload: ExternIO::encode(payload)?,
             })?,
         )
         .await?;
