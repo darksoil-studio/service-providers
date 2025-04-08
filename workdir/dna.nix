@@ -9,7 +9,9 @@
         integrity:
           network_seed: null
           origin_time: 1676140846503210
-          properties: null
+          properties: 
+            progenitors:
+              - uhCAk13OZ84d5HFum5PZYcl61kHHMfL2EJ4yNbHwSp4vn6QeOdFii
           zomes:
           - name: service_providers_integrity
             hash: null
