@@ -2,7 +2,9 @@ manifest_version: '1'
 name: service_providers
 integrity:
   network_seed: null
-  properties: null
+  properties:
+    progenitors:
+      - uhCAk13OZ84d5HFum5PZYcl61kHHMfL2EJ4yNbHwSp4vn6QeOdFii
   origin_time: 1676140846503210
   zomes:
   - name: service_providers_integrity
