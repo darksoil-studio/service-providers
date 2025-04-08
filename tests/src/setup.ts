@@ -56,16 +56,16 @@ async function addPlayer(
 	const player = await scenario.addPlayerWithApp(
 		{ path: happPath },
 		{
-			rolesSettings: {
-				service_providers_test: {
-					type: 'Provisioned',
-					modifiers: {
-						properties: {
-							progenitors: [encodeHashToBase64(progenitor)],
-						},
-					},
-				},
-			},
+			// rolesSettings: {
+			// 	service_providers_test: {
+			// 		type: 'Provisioned',
+			// 		modifiers: {
+			// 			properties: {
+			// 				progenitors: [encodeHashToBase64(progenitor)],
+			// 			},
+			// 		},
+			// 	},
+			// },
 		},
 	);
 	console.log(
