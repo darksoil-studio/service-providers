@@ -1,3 +1,4 @@
+import { ActionCommittedSignal } from '@darksoil-studio/holochain-utils';
 import {
 	ActionHash,
 	AgentPubKey,
@@ -11,7 +12,6 @@ import {
 	SignedActionHashed,
 	Update,
 } from '@holochain/client';
-import { ActionCommittedSignal } from '@tnesh-stack/utils';
 
 export type ServiceProvidersSignal = ActionCommittedSignal<
 	EntryTypes,

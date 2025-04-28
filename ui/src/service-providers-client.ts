@@ -1,3 +1,4 @@
+import { EntryRecord, ZomeClient } from '@darksoil-studio/holochain-utils';
 import {
 	ActionHash,
 	AgentPubKey,
@@ -11,7 +12,6 @@ import {
 	SignedActionHashed,
 } from '@holochain/client';
 import { decode, encode } from '@msgpack/msgpack';
-import { EntryRecord, ZomeClient } from '@tnesh-stack/utils';
 
 import { ServiceId, ServiceProvidersSignal } from './types.js';
 

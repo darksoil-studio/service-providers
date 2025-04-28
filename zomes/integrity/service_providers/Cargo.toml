@@ -12,5 +12,5 @@ hdi = { workspace = true }
 
 serde = { workspace = true }
 
-roles_types = { git = "https://github.com/darksoil-studio/roles-zome", branch = "main-0.4" }
+roles_types = { git = "https://github.com/darksoil-studio/roles-zome", branch = "main-0.5" }
 service_providers_types = { path = "../../../crates/service_providers_types" }

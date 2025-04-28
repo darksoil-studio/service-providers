@@ -8,7 +8,6 @@
         name: service_providers
         integrity:
           network_seed: null
-          origin_time: 1676140846503210
           properties: 
             progenitors:
               - uhCAk13OZ84d5HFum5PZYcl61kHHMfL2EJ4yNbHwSp4vn6QeOdFii
@@ -47,11 +46,10 @@
             '' else
               ""
           }
-        lineage: []
       '';
     in {
       packages.service_providers_dna =
-        inputs.tnesh-stack.outputs.builders.${system}.dna {
+        inputs.holochain-nix-builders.outputs.builders.${system}.dna {
           dnaManifest =
             builtins.toFile "dna.yaml" (dnaManifest { gateway = false; });
           zomes = {
@@ -64,7 +62,7 @@
           };
         };
       builders.service_providers_dna_with_gateway = { gatewayZome }:
-        inputs.tnesh-stack.outputs.builders.${system}.dna {
+        inputs.holochain-nix-builders.outputs.builders.${system}.dna {
           dnaManifest =
             builtins.toFile "dna.yaml" (dnaManifest { gateway = true; });
           zomes = {

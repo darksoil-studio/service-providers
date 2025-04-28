@@ -23,7 +23,7 @@ pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
 
     create_link(
         path.path_entry_hash()?,
-        agent_info.agent_latest_pubkey,
+        agent_info.agent_initial_pubkey,
         LinkTypes::ServiceProvider,
         (),
     )?;
@@ -97,7 +97,7 @@ pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternRes
         .build(),
     )?;
 
-    let my_pub_key = agent_info()?.agent_latest_pubkey;
+    let my_pub_key = agent_info()?.agent_initial_pubkey;
 
     for provider_link in providers_links.clone() {
         let Some(provider) = provider_link.target.into_agent_pub_key() else {

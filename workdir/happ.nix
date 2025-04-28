@@ -3,7 +3,7 @@
 {
   perSystem = { inputs', lib, self', system, ... }: {
     packages.service_consumer_test_happ =
-      inputs.tnesh-stack.outputs.builders.${system}.happ {
+      inputs.holochain-nix-builders.outputs.builders.${system}.happ {
         happManifest = ./happ.yaml;
 
         dnas = {
@@ -14,7 +14,7 @@
         };
       };
     packages.service_provider_test_happ =
-      inputs.tnesh-stack.outputs.builders.${system}.happ {
+      inputs.holochain-nix-builders.outputs.builders.${system}.happ {
         happManifest = ./happ.yaml;
 
         dnas = {

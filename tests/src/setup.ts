@@ -1,3 +1,4 @@
+import { EntryRecord } from '@darksoil-studio/holochain-utils';
 import {
 	ActionHash,
 	AgentPubKey,
@@ -15,7 +16,6 @@ import {
 } from '@holochain/client';
 import { Player, Scenario, dhtSync, pause } from '@holochain/tryorama';
 import { encode } from '@msgpack/msgpack';
-import { EntryRecord } from '@tnesh-stack/utils';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -54,7 +54,7 @@ async function addPlayer(
 	progenitor: AgentPubKey,
 ) {
 	const player = await scenario.addPlayerWithApp(
-		{ path: happPath },
+		{ type: 'path', value: happPath },
 		{
 			// rolesSettings: {
 			// 	service_providers_test: {
@@ -97,16 +97,6 @@ async function addPlayer(
 			store.client.client = appWs;
 		},
 	};
-}
-
-async function promiseAllSequential<T>(
-	promises: Array<() => Promise<T>>,
-): Promise<Array<T>> {
-	const results: Array<T> = [];
-	for (const promise of promises) {
-		results.push(await promise());
-	}
-	return results;
 }
 
 function patchCallZome(appWs: AppWebsocket) {
