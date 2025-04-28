@@ -1,0 +1,340 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "locales/locales.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "sourceLocale",
+          "default": "`en`",
+          "description": "The locale code that templates in this source code are written in."
+        },
+        {
+          "kind": "variable",
+          "name": "targetLocales",
+          "type": {
+            "text": "array"
+          },
+          "default": "[ , ]",
+          "description": "The other locale codes that this application is localized into. Sorted\nlexicographically."
+        },
+        {
+          "kind": "variable",
+          "name": "allLocales",
+          "type": {
+            "text": "array"
+          },
+          "default": "[ `en`, ]",
+          "description": "All valid project locale codes. Sorted lexicographically."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "sourceLocale",
+          "declaration": {
+            "name": "sourceLocale",
+            "module": "locales/locales.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "targetLocales",
+          "declaration": {
+            "name": "targetLocales",
+            "module": "locales/locales.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "allLocales",
+          "declaration": {
+            "name": "allLocales",
+            "module": "locales/locales.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/context.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "serviceProvidersStoreContext"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "serviceProvidersStoreContext",
+          "declaration": {
+            "name": "serviceProvidersStoreContext",
+            "module": "src/context.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./service-providers-store.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./service-providers-client.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./context.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/mocks.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ServiceProvidersZomeMock",
+          "superclass": {
+            "name": "ZomeMock",
+            "package": "@darksoil-studio/holochain-utils"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ServiceProvidersZomeMock",
+          "declaration": {
+            "name": "ServiceProvidersZomeMock",
+            "module": "src/mocks.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/service-providers-client.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ServiceProvidersClient",
+          "members": [
+            {
+              "kind": "method",
+              "name": "getProvidersForService",
+              "return": {
+                "type": {
+                  "text": "Promise<AgentPubKey[]>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "serviceId",
+                  "type": {
+                    "text": "ServiceId"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "makeServiceRequest",
+              "return": {
+                "type": {
+                  "text": "Promise<R>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "servideId",
+                  "type": {
+                    "text": "ServiceId"
+                  }
+                },
+                {
+                  "name": "fnName",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "payload",
+                  "type": {
+                    "text": "P"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "ZomeClient",
+            "package": "@darksoil-studio/holochain-utils"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ServiceProvidersClient",
+          "declaration": {
+            "name": "ServiceProvidersClient",
+            "module": "src/service-providers-client.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/service-providers-store.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ServiceProvidersStore"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ServiceProvidersStore",
+          "declaration": {
+            "name": "ServiceProvidersStore",
+            "module": "src/service-providers-store.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/service-providers-context.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ServiceProvidersContext",
+          "members": [
+            {
+              "kind": "field",
+              "name": "client",
+              "type": {
+                "text": "AppClient"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "store",
+              "type": {
+                "text": "ServiceProvidersStore"
+              },
+              "attribute": "store"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "role"
+            },
+            {
+              "kind": "field",
+              "name": "zome",
+              "type": {
+                "text": "string"
+              },
+              "default": "'service_providers'",
+              "attribute": "zome"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "store",
+              "type": {
+                "text": "ServiceProvidersStore"
+              },
+              "fieldName": "store"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "role"
+            },
+            {
+              "name": "zome",
+              "type": {
+                "text": "string"
+              },
+              "default": "'service_providers'",
+              "fieldName": "zome"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "service-providers-context",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ServiceProvidersContext",
+          "declaration": {
+            "name": "ServiceProvidersContext",
+            "module": "src/elements/service-providers-context.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "service-providers-context",
+          "declaration": {
+            "name": "ServiceProvidersContext",
+            "module": "src/elements/service-providers-context.ts"
+          }
+        }
+      ]
+    }
+  ]
+}
