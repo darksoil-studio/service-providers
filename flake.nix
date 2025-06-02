@@ -12,7 +12,6 @@
     holochain-nix-builders.url =
       "github:darksoil-studio/holochain-nix-builders/main-0.5";
     playground.url = "github:darksoil-studio/holochain-playground/main-0.5";
-
   };
 
   nixConfig = {

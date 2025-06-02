@@ -3,7 +3,6 @@ import {
 	ActionHash,
 	AgentPubKey,
 	AppBundleSource,
-	AppCallZomeRequest,
 	AppWebsocket,
 	EntryHash,
 	NewEntryAction,
@@ -54,7 +53,7 @@ async function addPlayer(
 	progenitor: AgentPubKey,
 ) {
 	const player = await scenario.addPlayerWithApp(
-		{ type: 'path', value: happPath },
+		{ appBundleSource: { type: 'path', value: happPath } },
 		{
 			// rolesSettings: {
 			// 	service_providers_test: {
