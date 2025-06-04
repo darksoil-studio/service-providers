@@ -53,8 +53,13 @@
           dnaManifest =
             builtins.toFile "dna.yaml" (dnaManifest { gateway = false; });
           zomes = {
-            roles_integrity = inputs'.roles-zome.packages.roles_integrity;
-            roles = inputs'.roles-zome.packages.roles;
+            roles_integrity = inputs'.roles-zome.builders.roles_integrity {
+              linked_devices_integrity_zome_name = null;
+            };
+            roles = inputs'.roles-zome.builders.roles {
+              notifications_coordinator_zome_name = null;
+              linked_devices_coordinator_zome_name = null;
+            };
             # This overrides all the "bundled" properties for the DNA manifest
             service_providers_integrity =
               self'.packages.service_providers_integrity;
@@ -66,8 +71,13 @@
           dnaManifest =
             builtins.toFile "dna.yaml" (dnaManifest { gateway = true; });
           zomes = {
-            roles_integrity = inputs'.roles-zome.packages.roles_integrity;
-            roles = inputs'.roles-zome.packages.roles;
+            roles_integrity = inputs'.roles-zome.builders.roles_integrity {
+              linked_devices_integrity_zome_name = null;
+            };
+            roles = inputs'.roles-zome.builders.roles {
+              notifications_coordinator_zome_name = null;
+              linked_devices_coordinator_zome_name = null;
+            };
             # This overrides all the "bundled" properties for the DNA manifest
             service_providers_integrity =
               self'.packages.service_providers_integrity;
