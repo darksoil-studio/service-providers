@@ -37,6 +37,11 @@
         inputs.holochain-nix-builders.outputs.flakeModules.builders
       ];
 
+      flake = {
+        progenitors =
+          [ "uhCAk13OZ84d5HFum5PZYcl61kHHMfL2EJ4yNbHwSp4vn6QeOdFii" ];
+      };
+
       systems = builtins.attrNames inputs.holonix.devShells;
       perSystem = { inputs', config, pkgs, system, ... }: {
         devShells.default = pkgs.mkShell {
