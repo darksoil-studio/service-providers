@@ -51,14 +51,10 @@
     in rec {
       builders.service_providers_dna = { progenitors }:
         inputs.holochain-nix-builders.outputs.builders.${system}.dna {
-          dnaManifest = builtins.toFile "dna.yaml" (builtins.trace
-            (dnaManifest {
-              inherit progenitors;
-              gateway = false;
-            }) (dnaManifest {
-              inherit progenitors;
-              gateway = false;
-            }));
+          dnaManifest = builtins.toFile "dna.yaml" (dnaManifest {
+            inherit progenitors;
+            gateway = false;
+          });
           zomes = {
             roles_integrity = inputs'.roles-zome.builders.roles_integrity {
               linked_devices_integrity_zome_name = null;
