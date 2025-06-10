@@ -16,8 +16,12 @@ fn all_providers_path() -> ExternResult<TypedPath> {
 #[hdk_extern]
 pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
     let agent_info = agent_info()?;
+    let dna_info = dna_info()?;
 
-    info!("Announcing as provider for service {service_id:?}");
+    info!(
+        "Announcing as provider for service {service_id:?} in DNA {}",
+        dna_info.hash
+    );
 
     let path = providers_for_service_path(&service_id)?;
 
