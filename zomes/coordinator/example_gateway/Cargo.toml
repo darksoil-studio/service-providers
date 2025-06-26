@@ -9,6 +9,7 @@ name = "example_gateway"
 
 [dependencies]
 hdk = { workspace = true }
+holochain_serialized_bytes = { workspace = true }
 serde = { workspace = true }
 
 service_providers_types = { path = "../../../crates/service_providers_types" }

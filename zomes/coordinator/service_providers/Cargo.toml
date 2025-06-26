@@ -10,6 +10,7 @@ name = "service_providers"
 [dependencies]
 hdk = { workspace = true, features = ["unstable-functions"] }
 
+holochain_serialized_bytes = { workspace = true }
 serde = { workspace = true }
 
 service_providers_integrity = { path = "../../integrity/service_providers", package = "service_providers_integrity" }

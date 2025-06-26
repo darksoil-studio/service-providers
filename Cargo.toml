@@ -9,9 +9,10 @@ members = ["crates/*", "zomes/coordinator/*", "zomes/integrity/*"]
 resolver = "2"
 
 [workspace.dependencies]
-hdi = "0.6"
-hdk = "0.5"
+hdi = "0.6.3"
+hdk = "0.5.3"
 serde = "1.0"
+holochain_serialized_bytes = "*"
 
 [workspace.dependencies.example_gateway]
 path = "zomes/coordinator/example_gateway"

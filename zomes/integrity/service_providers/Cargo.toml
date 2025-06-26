@@ -10,6 +10,7 @@ name = "service_providers_integrity"
 [dependencies]
 hdi = { workspace = true }
 
+holochain_serialized_bytes = { workspace = true }
 serde = { workspace = true }
 
 roles_types = { git = "https://github.com/darksoil-studio/roles-zome", branch = "main-0.5" }
