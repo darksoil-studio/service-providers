@@ -54,18 +54,18 @@ async function addPlayer(
 ) {
 	const player = await scenario.addPlayerWithApp(
 		{ appBundleSource: { type: 'path', value: happPath } },
-		{
-			// rolesSettings: {
-			// 	service_providers_test: {
-			// 		type: 'Provisioned',
-			// 		modifiers: {
-			// 			properties: {
-			// 				progenitors: [encodeHashToBase64(progenitor)],
-			// 			},
-			// 		},
-			// 	},
-			// },
-		},
+		// {
+		// rolesSettings: {
+		// 	service_providers_test: {
+		// 		type: 'Provisioned',
+		// 		modifiers: {
+		// 			properties: {
+		// 				progenitors: [encodeHashToBase64(progenitor)],
+		// 			},
+		// 		},
+		// 	},
+		// },
+		// },
 	);
 	console.log(
 		'Added player with DNA hash: ',
@@ -77,7 +77,7 @@ async function addPlayer(
 	// 	.adminWs()
 	// 	.authorizeSigningCredentials(player.cells[0].cell_id);
 	const store = new ServiceProvidersStore(
-		new ServiceProvidersClient(player.appWs as any, 'service_providers_test'),
+		new ServiceProvidersClient(player.appWs as any, 'services_test'),
 	);
 	await store.client.getProvidersForService(new Uint8Array([]));
 	return {

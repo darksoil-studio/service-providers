@@ -1,14 +1,14 @@
 ---
 manifest_version: "1"
-name: service_providers_test
+name: services_test
 description: ~
 roles:   
-  - name: service_providers_test
+  - name: services_test
     provisioning:
       strategy: create
       deferred: false
     dna:
-      bundled: "./service_providers_test.dna"
+      bundled: "NIX"
       modifiers:
         network_seed: ~
         properties: ~

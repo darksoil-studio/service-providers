@@ -5,7 +5,7 @@
     let
       dnaManifest = { gateway, progenitors }: ''
         manifest_version: '1'
-        name: service_providers
+        name: services
         integrity:
           network_seed: null
           properties: 
@@ -49,7 +49,7 @@
           }
       '';
     in rec {
-      builders.service_providers_dna = { progenitors }:
+      builders.services_dna = { progenitors }:
         inputs.holochain-nix-builders.outputs.builders.${system}.dna {
           dnaManifest = builtins.toFile "dna.yaml" (dnaManifest {
             inherit progenitors;
@@ -69,10 +69,9 @@
             service_providers = self'.packages.service_providers;
           };
         };
-      packages.service_providers_dna = builders.service_providers_dna {
-        progenitors = self.outputs.progenitors;
-      };
-      builders.service_providers_dna_with_gateway_and_progenitors =
+      packages.services_dna =
+        builders.services_dna { progenitors = self.outputs.progenitors; };
+      builders.services_dna_with_gateway_and_progenitors =
         { gatewayZome, progenitors }:
         inputs.holochain-nix-builders.outputs.builders.${system}.dna {
           dnaManifest = builtins.toFile "dna.yaml" (dnaManifest {
@@ -94,8 +93,8 @@
             gateway = gatewayZome;
           };
         };
-      builders.service_providers_dna_with_gateway = { gatewayZome }:
-        builders.service_providers_dna_with_gateway_and_progenitors {
+      builders.services_dna_with_gateway = { gatewayZome }:
+        builders.services_dna_with_gateway_and_progenitors {
           inherit gatewayZome;
           progenitors = self.outputs.progenitors;
         };
