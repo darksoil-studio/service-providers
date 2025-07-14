@@ -6,6 +6,8 @@ use serde::{de::DeserializeOwned, Serialize};
 
 use service_providers_types::{MakeServiceRequestInput, ServiceId};
 
+const SERVICES_ROLE_NAME: &'static str = "services";
+
 pub async fn make_service_request<P, R>(
     app_ws: &AppWebsocket,
     service_id: ServiceId,
@@ -18,7 +20,7 @@ where
 {
     let providers: Vec<AgentPubKey> = app_ws
         .call_zome(
-            ZomeCallTarget::RoleName("service_providers".into()),
+            ZomeCallTarget::RoleName(SERVICES_ROLE_NAME.into()),
             "service_providers".into(),
             "get_providers_for_service".into(),
             ExternIO::encode(service_id.clone()).unwrap(),
@@ -33,7 +35,7 @@ where
     let (service_provider, _) = select_ok(providers.into_iter().map(|provider| {
         app_ws
             .call_zome(
-                ZomeCallTarget::RoleName("service_providers".into()),
+                ZomeCallTarget::RoleName(SERVICES_ROLE_NAME.into()),
                 "service_providers".into(),
                 "check_provider_is_available".into(),
                 ExternIO::encode(provider.clone()).unwrap(),
@@ -45,7 +47,7 @@ where
 
     let result: ExternIO = app_ws
         .call_zome(
-            ZomeCallTarget::RoleName("service_providers".into()),
+            ZomeCallTarget::RoleName(SERVICES_ROLE_NAME.into()),
             "service_providers".into(),
             "make_service_request".into(),
             ExternIO::encode(MakeServiceRequestInput {
