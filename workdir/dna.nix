@@ -50,7 +50,7 @@
       '';
     in rec {
       builders.services_dna = { progenitors }:
-        inputs.holochain-nix-builders.outputs.builders.${system}.dna {
+        inputs.holochain-utils.outputs.builders.${system}.dna {
           dnaManifest = builtins.toFile "dna.yaml" (dnaManifest {
             inherit progenitors;
             gateway = false;
@@ -73,7 +73,7 @@
         builders.services_dna { progenitors = self.outputs.progenitors; };
       builders.services_dna_with_gateway_and_progenitors =
         { gatewayZome, progenitors }:
-        inputs.holochain-nix-builders.outputs.builders.${system}.dna {
+        inputs.holochain-utils.outputs.builders.${system}.dna {
           dnaManifest = builtins.toFile "dna.yaml" (dnaManifest {
             inherit progenitors;
             gateway = true;
