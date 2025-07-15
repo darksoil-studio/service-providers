@@ -2,7 +2,6 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    roles-zome.url = "github:darksoil-studio/roles-zome/main-0.5";
     holonix.url = "github:holochain/holonix/main-0.5";
 
     nixpkgs.follows = "holonix/nixpkgs";
@@ -12,6 +11,8 @@
     holochain-nix-builders.url =
       "github:darksoil-studio/holochain-nix-builders/main-0.5";
     playground.url = "github:darksoil-studio/holochain-playground/main-0.5";
+
+    roles-zome.url = "github:darksoil-studio/roles-zome/main-0.5";
   };
 
   nixConfig = {
