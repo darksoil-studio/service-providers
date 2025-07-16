@@ -2,14 +2,10 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    holonix.url = "github:holochain/holonix/main-0.5";
-    nixpkgs.follows = "holonix/nixpkgs";
-
     holochain-utils.url = "github:darksoil-studio/holochain-utils/main-0.5";
-    holochain-utils.inputs.holonix.follows = "holonix";
+    nixpkgs.follows = "holochain-utils/nixpkgs";
 
     roles-zome.url = "github:darksoil-studio/roles-zome/main-0.5";
-    roles-zome.inputs.holonix.follows = "holonix";
     roles-zome.inputs.holochain-utils.follows = "holochain-utils";
   };
 
@@ -25,7 +21,9 @@
   };
 
   outputs = inputs:
-    inputs.holonix.inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+    inputs.holochain-utils.inputs.holonix.inputs.flake-parts.lib.mkFlake {
+      inherit inputs;
+    } {
       imports = [
         ./zomes/integrity/service_providers/zome.nix
         ./zomes/coordinator/service_providers/zome.nix
@@ -41,12 +39,13 @@
           [ "uhCAk13OZ84d5HFum5PZYcl61kHHMfL2EJ4yNbHwSp4vn6QeOdFii" ];
       };
 
-      systems = builtins.attrNames inputs.holonix.devShells;
+      systems =
+        builtins.attrNames inputs.holochain-utils.inputs.holonix.devShells;
       perSystem = { inputs', config, pkgs, system, ... }: {
         devShells.default = pkgs.mkShell {
           inputsFrom = [
             inputs'.holochain-utils.devShells.synchronized-pnpm
-            inputs'.holonix.devShells.default
+            inputs'.holochain-utils.devShells.default
           ];
 
           packages = [
