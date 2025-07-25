@@ -3,9 +3,9 @@ import { assert, test } from 'vitest';
 
 import { setup, waitUntil } from './setup.js';
 
-test('make service request', async () => {
+test('inactive providers get removed', async () => {
 	await runScenario(async scenario => {
-		const { providers, consumer } = await setup(scenario);
+		const { consumer, providers } = await setup(scenario, 2);
 
 		const serviceId = new Uint8Array([0, 1, 2]);
 
@@ -13,15 +13,16 @@ test('make service request', async () => {
 			const providers =
 				await consumer.store.client.getProvidersForService(serviceId);
 
-			return providers.length === 1;
+			return providers.length === 2;
 		}, 40_000);
 
-		const response = await consumer.store.client.makeServiceRequest(
-			serviceId,
-			'ping',
-			undefined,
-		);
+		await providers[1].player.conductor.shutDown();
 
-		assert.equal(response, 'pong');
+		await waitUntil(async () => {
+			const providers =
+				await consumer.store.client.getProvidersForService(serviceId);
+
+			return providers.length === 1;
+		}, 6 * 60_000);
 	});
 });
