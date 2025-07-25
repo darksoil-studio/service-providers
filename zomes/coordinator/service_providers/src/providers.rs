@@ -24,6 +24,7 @@ pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
     );
 
     let path = providers_for_service_path(&service_id)?;
+    path.ensure()?;
 
     create_link(
         path.path_entry_hash()?,
@@ -72,10 +73,12 @@ fn scheduled_remove_inactive_providers(_: Option<Schedule>) -> Option<Schedule> 
         error!("Failed to remove inactive providers: {err:?}");
     }
 
-    Some(Schedule::Persisted("* */5 * * * * *".into())) // Every 60 seconds
+    Some(Schedule::Persisted("0 */5 * * * * *".into())) // Every 60 seconds
 }
 
 pub fn remove_inactive_providers() -> ExternResult<()> {
+    debug!("[remove_inactive_providers] start.");
+    
     let all_providers_path = all_providers_path()?;
 
     let children = all_providers_path.children_paths()?;
@@ -110,11 +113,15 @@ pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternRes
         if provider.eq(&my_pub_key) {
             continue;
         }
+
+        info!("[remove_inactive_providers] checking if provider is available: {}.", provider);
         let available = check_provider_is_available(provider.clone());
 
         if available.is_err() {
             warn!("Marking provider as not available: {provider}");
             delete_link_relaxed(provider_link.create_link_hash)?;
+        } else {
+            info!("[remove_inactive_providers] provider is available: {}.", provider);
         }
     }
 

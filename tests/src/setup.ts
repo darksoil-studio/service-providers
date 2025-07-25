@@ -28,9 +28,13 @@ const consumerHappUrl =
 	dirname(fileURLToPath(import.meta.url)) +
 	'/../../workdir/service_consumer_test.happ';
 
-export async function setup(scenario: Scenario) {
+export async function setup(scenario: Scenario, providerNumber = 1) {
 	const progenitor = await fakeAgentPubKey();
-	const provider = await addPlayer(scenario, providerHappUrl, progenitor);
+	const providers = await Promise.all(
+		Array.from(Array(providerNumber)).map(p =>
+			addPlayer(scenario, providerHappUrl, progenitor),
+		),
+	);
 	const consumer = await addPlayer(scenario, consumerHappUrl, progenitor);
 
 	// Shortcut peer discovery through gossip and register all agents in every
@@ -38,13 +42,13 @@ export async function setup(scenario: Scenario) {
 	await scenario.shareAllAgents();
 
 	await dhtSync(
-		[consumer.player, provider.player],
-		provider.player.cells[0].cell_id[0],
+		[consumer.player, ...providers.map(p => p.player)],
+		consumer.player.cells[0].cell_id[0],
 	);
 
 	console.log('Setup completed!');
 
-	return { consumer, provider };
+	return { consumer, providers };
 }
 
 async function addPlayer(
@@ -92,26 +96,8 @@ async function addPlayer(
 					installed_app_id: player.appId,
 				});
 			const appWs = await player.conductor.connectAppWs(issued.token, port);
-			patchCallZome(appWs);
 			store.client.client = appWs;
 		},
-	};
-}
-
-function patchCallZome(appWs: AppWebsocket) {
-	const callZome = appWs.callZome;
-	appWs.callZome = async req => {
-		try {
-			const result = await callZome(req);
-			return result;
-		} catch (e) {
-			if (
-				!e.toString().includes('Socket is not open') &&
-				!e.toString().includes('ClientClosedWithPendingRequests')
-			) {
-				throw e;
-			}
-		}
 	};
 }
 
