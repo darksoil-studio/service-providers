@@ -30,7 +30,7 @@ pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
         path.path_entry_hash()?,
         agent_info.agent_initial_pubkey,
         LinkTypes::ServiceProvider,
-        (),
+        service_id.clone(),
     )?;
 
     let functions = GrantedFunctions::Listed(BTreeSet::from([(
@@ -45,6 +45,7 @@ pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
     })?;
 
     schedule("scheduled_remove_inactive_providers")?;
+    schedule("scheduled_reannounce_as_provider")?;
 
     Ok(())
 }
@@ -68,12 +69,101 @@ pub fn get_providers_for_service(service_id: ServiceId) -> ExternResult<Vec<Agen
 }
 
 #[hdk_extern(infallible)]
+fn scheduled_reannounce_as_provider(_: Option<Schedule>) -> Option<Schedule> {
+    if let Err(err) = reannounce_as_provider_for_my_services_if_necessary() {
+        error!("Failed to reannounce as provider for my services: {err:?}");
+    }
+
+    Some(Schedule::Persisted("*/30 * * * * * *".into())) // Every 30 minutes
+}
+
+#[hdk_extern(infallible)]
 fn scheduled_remove_inactive_providers(_: Option<Schedule>) -> Option<Schedule> {
     if let Err(err) = remove_inactive_providers() {
         error!("Failed to remove inactive providers: {err:?}");
     }
 
-    Some(Schedule::Persisted("0 */5 * * * * *".into())) // Every 60 seconds
+    Some(Schedule::Persisted("0 */5 * * * * *".into())) // Every 5 minutes
+}
+
+fn reannounce_as_provider_for_my_services_if_necessary() -> ExternResult<()> {
+    let creates = query(ChainQueryFilter::new().action_type(ActionType::CreateLink))?;
+
+    let deletes = query(ChainQueryFilter::new().action_type(ActionType::DeleteLink))?;
+    let deleted_hashes: Vec<ActionHash> = deletes
+        .into_iter()
+        .filter_map(|r| match r.action() {
+            Action::DeleteLink(delete_link) => Some(delete_link.link_add_address.clone()),
+            _ => None,
+        })
+        .collect();
+
+    let my_pub_key = agent_info()?.agent_initial_pubkey;
+    let zome_id = zome_info()?.id;
+
+    let services: HashSet<ServiceId> = creates
+        .into_iter()
+        .filter_map(|r| match r.action() {
+            Action::CreateLink(create_link) => {
+                Some((r.action_address().clone(), create_link.clone()))
+            }
+            _ => None,
+        })
+        .filter(|(hash, create_link)| {
+            // TODO: from_type actually returns Ok(None), why?
+            // let Ok(Some(LinkTypes::ServiceProvider)) = LinkTypes::from_type(zome_id, create_link.link_type) else {
+            //     return false;
+            // };
+            let Some(agent) = create_link.target_address.clone().into_agent_pub_key() else {
+                return false;
+            };
+            if agent.ne(&my_pub_key) {
+                return false;
+            }
+            if deleted_hashes.contains(hash) {
+                return false;
+            }
+            true
+        })
+        .map(|(_, create_link)| create_link.tag.0)
+        .collect();
+
+    debug!("[reannounce_as_provider_if_necessary] This node {my_pub_key} is a provider for services: {services:?}.");
+
+    for service_id in services {
+        reannounce_as_provider_if_necessary(&service_id)?;
+    }
+
+    Ok(())
+}
+
+fn reannounce_as_provider_if_necessary(service_id: &ServiceId) -> ExternResult<()> {
+    let providers_links = get_links(
+        GetLinksInputBuilder::try_new(
+            providers_for_service_path(&service_id)?.path_entry_hash()?,
+            LinkTypes::ServiceProvider,
+        )?
+        .build(),
+    )?;
+    let providers: Vec<AgentPubKey> = providers_links
+        .into_iter()
+        .filter_map(|link| link.target.into_agent_pub_key())
+        .collect();
+
+    let my_pub_key = agent_info()?.agent_initial_pubkey;
+
+    if !providers.contains(&my_pub_key) {
+        warn!("This node {my_pub_key} was not listed as a provider for the service {service_id:?}! Reannouncing as provider.");
+        let path = providers_for_service_path(&service_id)?;
+        create_link_relaxed(
+            path.path_entry_hash()?,
+            my_pub_key,
+            LinkTypes::ServiceProvider,
+            service_id.clone(),
+        )?;
+    }
+
+    Ok(())
 }
 
 pub fn remove_inactive_providers() -> ExternResult<()> {
@@ -130,21 +220,6 @@ pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternRes
                 provider
             );
         }
-    }
-
-    let providers: Vec<AgentPubKey> = providers_links
-        .into_iter()
-        .filter_map(|link| link.target.into_agent_pub_key())
-        .collect();
-
-    if !providers.contains(&my_pub_key) {
-        let path = providers_for_service_path(&service_id)?;
-        create_link_relaxed(
-            path.path_entry_hash()?,
-            my_pub_key,
-            LinkTypes::ServiceProvider,
-            (),
-        )?;
     }
 
     Ok(())
