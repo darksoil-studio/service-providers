@@ -1,4 +1,4 @@
-import { runScenario } from '@holochain/tryorama';
+import { pause, runScenario } from '@holochain/tryorama';
 import { assert, test } from 'vitest';
 
 import { setup, waitUntil } from './setup.js';
@@ -24,5 +24,16 @@ test('inactive providers get removed', async () => {
 
 			return providers.length === 1;
 		}, 6 * 60_000);
+
+		await providers[1].player.conductor.startUp();
+
+		await waitUntil(async () => {
+			const providers =
+				await consumer.store.client.getProvidersForService(serviceId);
+
+			console.log(providers.length);
+
+			return providers.length === 2;
+		}, 11 * 60_000);
 	});
 });
