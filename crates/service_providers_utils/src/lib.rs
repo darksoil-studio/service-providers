@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use anyhow::anyhow;
 use futures::{future::select_ok, FutureExt, TryFutureExt};
 use holochain_client::{AgentPubKey, AppWebsocket, ExternIO, ZomeCallTarget};
@@ -18,7 +20,7 @@ where
     R: Serialize + DeserializeOwned + std::fmt::Debug,
     P: Serialize + DeserializeOwned + std::fmt::Debug,
 {
-    let providers: Vec<AgentPubKey> = app_ws
+    let providers: HashSet<AgentPubKey> = app_ws
         .call_zome(
             ZomeCallTarget::RoleName(SERVICES_ROLE_NAME.into()),
             "service_providers".into(),

@@ -51,7 +51,7 @@ pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
 }
 
 #[hdk_extern]
-pub fn get_providers_for_service(service_id: ServiceId) -> ExternResult<Vec<AgentPubKey>> {
+pub fn get_providers_for_service(service_id: ServiceId) -> ExternResult<HashSet<AgentPubKey>> {
     let links = get_links(
         GetLinksInputBuilder::try_new(
             providers_for_service_path(&service_id)?.path_entry_hash()?,
@@ -74,7 +74,7 @@ fn scheduled_reannounce_as_provider(_: Option<Schedule>) -> Option<Schedule> {
         error!("Failed to reannounce as provider for my services: {err:?}");
     }
 
-    Some(Schedule::Persisted("*/30 * * * * * *".into())) // Every 30 minutes
+    Some(Schedule::Persisted("*/30 * * * * * *".into())) // Every 30 seconds
 }
 
 #[hdk_extern(infallible)]
@@ -138,17 +138,7 @@ fn reannounce_as_provider_for_my_services_if_necessary() -> ExternResult<()> {
 }
 
 fn reannounce_as_provider_if_necessary(service_id: &ServiceId) -> ExternResult<()> {
-    let providers_links = get_links(
-        GetLinksInputBuilder::try_new(
-            providers_for_service_path(&service_id)?.path_entry_hash()?,
-            LinkTypes::ServiceProvider,
-        )?
-        .build(),
-    )?;
-    let providers: Vec<AgentPubKey> = providers_links
-        .into_iter()
-        .filter_map(|link| link.target.into_agent_pub_key())
-        .collect();
+    let providers = get_providers_for_service(service_id.clone())?;
 
     let my_pub_key = agent_info()?.agent_initial_pubkey;
 
