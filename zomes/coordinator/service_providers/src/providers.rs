@@ -198,7 +198,7 @@ pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternRes
             "[remove_inactive_providers] checking if provider is available: {}.",
             provider
         );
-        let available = check_provider_is_available(provider.clone());
+        let available = with_retries(|| check_provider_is_available(provider.clone()), 5);
 
         if available.is_err() {
             warn!("Marking provider as not available: {provider}");
@@ -213,6 +213,25 @@ pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternRes
     }
 
     Ok(())
+}
+
+fn with_retries<T>(condition: impl Fn() -> ExternResult<T>, retries: u32) -> ExternResult<T> {
+    let mut retry_count = 0;
+    loop {
+        let response = condition();
+
+        match response {
+            Ok(r) => {
+                return Ok(r);
+            }
+            Err(err) => {
+                retry_count += 1;
+                if retry_count == retries {
+                    return Err(wasm_error!("Timeout. Last error: {:?}", err));
+                }
+            }
+        }
+    }
 }
 
 #[hdk_extern]
