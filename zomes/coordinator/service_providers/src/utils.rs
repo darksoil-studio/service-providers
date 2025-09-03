@@ -30,8 +30,11 @@ where
 
 pub fn delete_link_relaxed(address: ActionHash) -> ExternResult<()> {
     HDK.with(|h| {
-        h.borrow()
-            .delete_link(DeleteLinkInput::new(address, ChainTopOrdering::Relaxed))
+        h.borrow().delete_link(DeleteLinkInput::new(
+            address,
+            GetOptions::network(),
+            ChainTopOrdering::Relaxed,
+        ))
     })?;
 
     Ok(())

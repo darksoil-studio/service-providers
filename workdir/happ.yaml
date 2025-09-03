@@ -1,5 +1,5 @@
 ---
-manifest_version: "1"
+manifest_version: "0"
 name: services_test
 description: ~
 roles:   
@@ -8,7 +8,7 @@ roles:
       strategy: create
       deferred: false
     dna:
-      bundled: "NIX"
+      path: "NIX"
       modifiers:
         network_seed: ~
         properties: ~

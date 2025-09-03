@@ -2,10 +2,10 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    holochain-utils.url = "github:darksoil-studio/holochain-utils/main-0.5";
+    holochain-utils.url = "github:darksoil-studio/holochain-utils/main-0.6";
     nixpkgs.follows = "holochain-utils/nixpkgs";
 
-    roles-zome.url = "github:darksoil-studio/roles-zome/main-0.5";
+    roles-zome.url = "github:darksoil-studio/roles-zome/main-0.6";
     roles-zome.inputs.holochain-utils.follows = "holochain-utils";
   };
 
@@ -67,7 +67,7 @@
                 --coordinator-zome-name service_providers \
                 --remote-zome-git-url github:darksoil-studio/service-providers-zome \
                 --remote-npm-package-name @darksoil-studio/service-providers-zome \
-                --remote-zome-git-branch main-0.5 \
+                --remote-zome-git-branch main-0.6 \
                 --context-element service-providers-context \
                 --context-element-import @darksoil-studio/service-providers-zome/dist/elements/service-providers-context.js" 
           '';

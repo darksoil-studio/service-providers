@@ -4,7 +4,7 @@
   perSystem = { inputs', self', lib, system, ... }:
     let
       dnaManifest = { gateway, progenitors }: ''
-        manifest_version: '1'
+        manifest_version: '0'
         name: services
         integrity:
           network_seed: null
@@ -15,35 +15,30 @@
           zomes:
           - name: service_providers_integrity
             hash: null
-            bundled: ../target/wasm32-unknown-unknown/release/service_providers_integrity.wasm
+            path: ../target/wasm32-unknown-unknown/release/service_providers_integrity.wasm
             dependencies: null
-            dylib: null
           - name: roles_integrity
             hash: null
-            bundled: <NIX_PACKAGE>
+            path: <NIX_PACKAGE>
             dependencies: null
-            dylib: null
         coordinator:
           zomes:
           - name: service_providers
             hash: null
-            bundled: ../target/wasm32-unknown-unknown/release/service_providers.wasm
+            path: ../target/wasm32-unknown-unknown/release/service_providers.wasm
             dependencies:
             - name: service_providers_integrity
-            dylib: null
           - name: roles
             hash: null
-            bundled: <NIX_PACKAGE>
+            path: <NIX_PACKAGE>
             dependencies:
             - name: roles_integrity
-            dylib: null
           ${
             if gateway then ''
               - name: gateway
                   hash: null
-                  bundled: <NIX_PACKAGE>
+                  path: <NIX_PACKAGE>
                   dependencies: []
-                  dylib: null
             '' else
               ""
           }

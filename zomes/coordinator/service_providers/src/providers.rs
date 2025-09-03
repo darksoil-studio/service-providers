@@ -53,11 +53,11 @@ pub fn announce_as_provider(service_id: ServiceId) -> ExternResult<()> {
 #[hdk_extern]
 pub fn get_providers_for_service(service_id: ServiceId) -> ExternResult<HashSet<AgentPubKey>> {
     let links = get_links(
-        GetLinksInputBuilder::try_new(
+        LinkQuery::try_new(
             providers_for_service_path(&service_id)?.path_entry_hash()?,
             LinkTypes::ServiceProvider,
-        )?
-        .build(),
+        )?,
+        GetStrategy::Network,
     )?;
 
     let providers_pub_keys = links
@@ -177,11 +177,11 @@ pub fn remove_inactive_providers() -> ExternResult<()> {
 
 pub fn remove_inactive_providers_for_service(service_id: ServiceId) -> ExternResult<()> {
     let providers_links = get_links(
-        GetLinksInputBuilder::try_new(
+        LinkQuery::try_new(
             providers_for_service_path(&service_id)?.path_entry_hash()?,
             LinkTypes::ServiceProvider,
-        )?
-        .build(),
+        )?,
+        GetStrategy::Network,
     )?;
 
     let my_pub_key = agent_info()?.agent_initial_pubkey;
